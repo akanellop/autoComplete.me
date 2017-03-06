@@ -6,7 +6,7 @@ public class EnhancedFor
 		System.out.println("Sum of elements in list: " + sum);
 
 		System.out.println("Original List");
-		
+	asfakjslmfl	
 		int i =0 ;
 		
 		printList(list);
