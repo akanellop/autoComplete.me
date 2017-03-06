@@ -6,6 +6,9 @@ public class EnhancedFor
 		System.out.println("Sum of elements in list: " + sum);
 
 		System.out.println("Original List");
+		
+		int i =0 ;
+		
 		printList(list);
 		System.out.println("Calling addOne");
 		addOne(list);
