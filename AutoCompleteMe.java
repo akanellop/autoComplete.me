@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.regex.*;
 
+enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
+
 public class AutoCompleteMe {
 	
 	
@@ -18,63 +20,100 @@ public class AutoCompleteMe {
 			+"6. Quit (type: quit)\n");
 			
 			Scanner input = new Scanner(System.in); //create input variable
-			String user_option = input.next(); // wait for user input, select your option
+			String data = input.nextLine();  //get whole line from terminal
+			String[] user_option = data.split("\\s+");// split the line where " " is used
 			
-			if (user_option.equals("print"))		{// "print"		
-				print_dictionary();
+			
+			if ( user_option[0].equals("load") ){ // load fromFilePath
+				loadFromFile(user_option[1]);
 			}
-			else if (user_option.equals("quit"))	{ // "quit"
+			else if ( user_option[0].equals("save") ){ //save toFilePath
+				saveToFile(user_option[1]);
+			}
+			else if ( user_option[0].equals("read") ){ //read fromFilePath
+				readFromFile(user_option[1]);
+			}
+			else if ( user_option[0].equals("suggest") ){ //suggest wordPhrase
+				suggestWordPhrase(user_option[1]);
+			}
+			else if (user_option[0].equals("print"))		{// "print"		
+				printDictionary();
+			}
+			else if (user_option[0].equals("quit"))	{ // "quit"
 				System.out.println("Ok, Bye!\n");
 				System.exit(0);
 			}
 		}
 	}
 	
-	public static void print_dictionary(){
+	
+	public static void loadFromFile(String file_argument){ // Serialisation to be done later
 		
 	}
-	
-	/*public static void ReadFromFile(){ //Thanos Scanner 
+	public static void saveToFile(String file_argument){ // Serialisation to be done later
+		
+	}
+	public static void printDictionary(){
+		
+	}
+	public static void readFromFile(String file_argument){  
+		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
+		
 		try{
 			
-			Scanner scanned_file = new Scanner(new File("01.txt"));
+			//String word1="01.txt";
+			String file_name = file_argument;
+			Scanner scanned_file = new Scanner(new File(file_name));
 			
 			while ( scanned_file.hasNext() ) { //scanner has tokens, so continue scanning
-				String word = scanned_file.next();
+				String word = scanned_file.next(); //reads word
 				
+				//checks Caps Status for the word
+				if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
+					checkCaps = wordType.ALLCAPS;
+				}
+				else if(Character.isUpperCase(word.charAt(0)) && checkCaps==(wordType.NOCAPS)){ //first char is UPPERCASE, FIRSTCAP
+					checkCaps = wordType.FIRSTCAP;
+				}
+				else {
+					checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
+				}
+				
+				//checks if there is a punctuation symbol for each situation
+				checkCaps = wordType.NOCAPS;
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
 				Matcher m = p.matcher(word);
 				
-				if (m.find()){//if you find the pattern in the word
-					word=word.substring(0,m.start());	//
+				if (!(m.find())){//if you don't find the pattern in the word
+					//word=word.substring(0,m.start());	//
+					
+					System.out.println(word); // we get the word WITH NO changes
+					/*BUILD THE STRUCTURE
+					YOU FILTHY
+					ANIMAL
+					HEY
+					HEY
+					*/
 				}
-				System.out.println(word);
+				else { // variable init for the next word , just go to the next word
+					checkCaps= wordType.NOCAPS;
+				}
 			}	
 		}
 		catch(Exception ex){ //error log
 			ex.printStackTrace();
 		}
-	}*/
+	}
+	public static void suggestWordPhrase(String word_phrase){//after finishing the structure
+		
+	}
+	
+
 	
 	public static void main (String [] args) {
 		boolean checkCAPS=false;  //check variable for keeping info for Caps Status
 		
-		
-		//spelling check
-		String word = "o !!!"; // blank spaces and punctations are used as wild cards
-		if (word.toUpperCase().equals(word)) {
-			System.out.println("this is all uppercase, yes!\n");
-		}
-		/*if (word.toLowerCase().equals(word)) {
-			System.out.println("this is all lowercase, yes!\n");
-		}*/
-		else if(Character.isUpperCase(word.charAt(0)) && checkCAPS == false){
-			System.out.println("First character is uppercase");
-		}
-		else {
-			System.out.println("There are no uppercase characters!");
-		}
-		//menu();
+		menu();
 	}
 
 
