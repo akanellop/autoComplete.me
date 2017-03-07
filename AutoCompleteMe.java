@@ -58,6 +58,7 @@ public class AutoCompleteMe {
 	}
 	public static void readFromFile(String file_argument){  
 		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
+		boolean checkPunct=false;
 		
 		try{
 			
@@ -72,7 +73,7 @@ public class AutoCompleteMe {
 				if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
 					checkCaps = wordType.ALLCAPS;
 				}
-				else if(Character.isUpperCase(word.charAt(0)) && checkCaps==(wordType.NOCAPS)){ //first char is UPPERCASE, FIRSTCAP
+				else if(Character.isUpperCase(word.charAt(0)) && checkPunct==false){ //first char is UPPERCASE, FIRSTCAP
 					checkCaps = wordType.FIRSTCAP;
 				}
 				else {
@@ -80,12 +81,19 @@ public class AutoCompleteMe {
 				}
 				
 				//checks if there is a punctuation symbol for each situation
-				checkCaps = wordType.NOCAPS;
+				checkPunct = true;
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
+				
+				//if words ends with punc , keeps only the characters before that
+				if(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!")
+					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){
+					word=word.substring(0, word.length()-1);
+					checkPunct= true;
+				}
 				Matcher m = p.matcher(word);
 				
-				if (!(m.find())){//if you don't find the pattern in the word
-					//word=word.substring(0,m.start());	//
+				
+				if (!(m.find()) ){//if you don't find the pattern in the word
 					
 					System.out.println(word); // we get the word WITH NO changes
 					/*BUILD THE STRUCTURE
@@ -94,9 +102,6 @@ public class AutoCompleteMe {
 					HEY
 					HEY
 					*/
-				}
-				else { // variable init for the next word , just go to the next word
-					checkCaps= wordType.NOCAPS;
 				}
 			}	
 		}
