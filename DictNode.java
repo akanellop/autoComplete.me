@@ -5,8 +5,6 @@ public class DictNode{
 	boolean isTerminal;
 	wordType capsType=wordType.NOCAPS;
 
-	//possible different constructor
-	
 	/*public DictNode(int pos, boolean isEND, wordType caps){
 		newNode[pos]=new DictNode[];
 		isTerminal=isEND;
