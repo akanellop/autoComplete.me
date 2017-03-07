@@ -57,15 +57,22 @@ public class AutoCompleteMe {
 	}*/
 	
 	public static void main (String [] args) {
+		boolean checkCAPS=false;  //check variable for keeping info for Caps Status
 		
 		
 		//spelling check
-		String word = "NO !!!"; // blank spaces and punctations are used as wild cards
+		String word = "o !!!"; // blank spaces and punctations are used as wild cards
 		if (word.toUpperCase().equals(word)) {
 			System.out.println("this is all uppercase, yes!\n");
 		}
-		if (word.toLowerCase().equals(word)) {
+		/*if (word.toLowerCase().equals(word)) {
 			System.out.println("this is all lowercase, yes!\n");
+		}*/
+		else if(Character.isUpperCase(word.charAt(0)) && checkCAPS == false){
+			System.out.println("First character is uppercase");
+		}
+		else {
+			System.out.println("There are no uppercase characters!");
 		}
 		//menu();
 	}
