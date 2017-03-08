@@ -85,7 +85,7 @@ public class AutoCompleteMe {
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
 				
 				//if words ends with punc , keeps only the characters before that
-				if(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!")
+				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!")
 					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){
 					word=word.substring(0, word.length()-1);
 					checkPunct= true;
