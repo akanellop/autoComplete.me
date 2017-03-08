@@ -34,9 +34,7 @@ public class DictNode{
 			if ( next2 == null) {
 				System.out.println("\n\nnext2 = null");
 			}
-			/*a = root.pointers[x]
-			a = a.pointers[y]
-			a = a.pointers[z]*/
+			
 
 		}
 		catch(Exception ex){ //error log
