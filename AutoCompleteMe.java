@@ -5,8 +5,11 @@ import java.lang.*;
 
 enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
 
+
+
 public class AutoCompleteMe {
 	
+	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -99,7 +102,7 @@ public class AutoCompleteMe {
 				checkPunct = true;
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
 				
-				//if words ends with punc , keeps only the characters before that
+				//while words ends with punc , keeps only the characters before that
 				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // for example, we get "absolute." replaced with "absolute"
 					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){
 					word=word.substring(0, word.length()-1);
@@ -120,12 +123,38 @@ public class AutoCompleteMe {
 						
 					} */
 					
+					
+					//maybe word needs conversion into ALL lowercase for loop(?)
 					for ( char ch : word.toCharArray()) { //enhanced loop
 						System.out.println(ch); //, iterates through each character
 						
-						int pos = ch -'a';
-						System.out.println("\nposition for character " +ch +" is " +pos );
+						int pos = ch -'a'; // index
+						System.out.println("\nposition for character " +ch +" is " +pos ); //test
+						
+						
+						//if ( pos == 0 ) { // an exw 'a'
+							if (root.pointers[pos] == null ) { // an den uparxei 'a' komvos, xtise ton
+								
+								root.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
+								
+								//DictNode next = new DictNode(false,wordType.NOCAPS); 
+								
+								//DictNode next = new DictNode(false,wordType.NOCAPS);
+							}
+							else {// an uparxei 'a' komvos, pigaine parakatw
+								
+								
+								
+								
+								
+							}
+							
+							
+						//}
 					}
+					
+					
+					
 					
 					
 					/*BUILD THE STRUCTURE
@@ -150,6 +179,7 @@ public class AutoCompleteMe {
 	
 	public static void main (String [] args) {
 		boolean checkCAPS=false;  //check variable for keeping info for Caps Status
+		
 		
 		menu();
 	}
