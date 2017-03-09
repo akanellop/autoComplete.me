@@ -58,6 +58,48 @@ public class AutoCompleteMe {
 	}
 	
 	public static void printDictionary(){
+		
+		/* tha ksekinaei apo to root kai tha psaxnei ola tou ta paidia
+		epeita tha psaxnei ta paidia twn paidiwn k.o.k.
+		Ola auta se ena for loop diladi.
+		Tha xrisimopoihsoume ena String to opoio tha to xtizoume siga siga xarakthra xarakthra
+		se kathe komvo pou vriskomaste, tha exoume enan char o 
+		 
+		ch = pos + 'a';*/
+		
+		DictNode temp = new DictNode(false,wordType.NOCAPS);
+		//DictNode temp2 = new DictNode(false,wordType.NOCAPS);
+		
+		temp = root;
+		//String str = "";
+		
+		char ch;
+		
+		
+			for (int i = 0 ; i<25 ; i++) { // gia kathe deikth pou exei o root
+				while (1){
+					if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
+						//  //tote auto exei na mas dwsei, opote as to psaxoume perissotero
+								//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
+								//mipws xreiazetai for loop?
+							
+							String str = ""; // arxikopoihsh string
+							
+							ch = i + 'a'; // not sure
+							str = str + ch;
+							
+							if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
+								System.out.println("Word in Dictionary: " + str);
+							}
+							
+							temp=temp.pointers[i]; //next
+							//i=0;
+						}
+						
+					}			
+				}
+			}
+		}
 	}
 	
 	//takes file as input and save all the words in a dictionary-like structure
@@ -92,6 +134,7 @@ public class AutoCompleteMe {
 				
 				//while words ends with punc , keeps only the characters before that
 				checkPunct = false;//initialize for this word
+				
 				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // erase punct symblos in the end of the word
 					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){// for example, we get "absolute." replaced with "absolute"
 					word=word.substring(0, word.length()-1);
@@ -107,7 +150,7 @@ public class AutoCompleteMe {
 					word=word.toLowerCase();//word needs conversion into ALL lowercase to find the correct position for each letter
 					System.out.println(word);
 					
-					temp=root;
+					temp=root;// for each word, we start from the root 
 					
 					for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
 						System.out.println(ch);
@@ -119,13 +162,14 @@ public class AutoCompleteMe {
 							temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
 						}
 								
+								
 						//if the character is the last one define the rest fields of the node
-						if (ch==word.length()){
-							temp.isTerminal= true;
+						if ( pos == word.length - 1){
+							temp.isTerminal = true;
 							temp.capsType = checkCaps;
 						}
 						
-						temp=temp.pointers[pos];
+						temp=temp.pointers[pos]; // iteration for next node
 					}
 					
 				}
