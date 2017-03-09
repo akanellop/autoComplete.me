@@ -111,6 +111,23 @@ public class AutoCompleteMe {
 				if (!(m.find()) ){//if you don't find the pattern in the word
 					
 					System.out.println(word); // we get the word WITH NO changes
+					
+					// we do this for each word, we are inside a while loop
+					
+					/* for (int i = 0 ; i< word.length(); i++){
+						char ch = word.charAt(i);
+						System.out.println(ch);
+						
+					} */
+					
+					for ( char ch : word.toCharArray()) { //enhanced loop
+						System.out.println(ch); //, iterates through each character
+						
+						int pos = ch -'a';
+						System.out.println("\nposition for character " +ch +" is " +pos );
+					}
+					
+					
 					/*BUILD THE STRUCTURE
 					YOU FILTHY
 					ANIMAL
@@ -118,6 +135,7 @@ public class AutoCompleteMe {
 					HEY
 					*/
 				}
+
 			}	
 		}
 		catch(Exception ex){ //error log
