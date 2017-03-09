@@ -50,23 +50,23 @@ public class AutoCompleteMe {
 		}
 	}
 	
-	
 	public static void loadFromFile(String file_argument){ // Serialisation to be done later
 		
 	}
 	public static void saveToFile(String file_argument){ // Serialisation to be done later
 		
 	}
+	
 	public static void printDictionary(){
-		
 	}
+	//takes file as input and save all the words in a dictionary-like structure
 	public static void readFromFile(String file_argument){  
 		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
 		boolean checkPunct=false;
 		int pos;
 		DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
-		
+		DictNode temp2 = new DictNode(false,wordType.NOCAPS);
 		try{
 			
 			String file_name = file_argument;
@@ -86,18 +86,6 @@ public class AutoCompleteMe {
 				else {
 					checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
 				}
-				
-				//char firstChar = word.charAt(0);//find first char of the word
-				/*if ( (checkPunct) && (Character.isUpperCase(firstChar) )  ){
-					
-					char firstCharLowerCase = Character.toLowerCase(firstChar);
-					word = firstCharLowerCase + word.substring(1,word.length());
-					//word.setCharAt(0, firstCharLowerCase); 
-					//input: "go away. Mary went away." 
-					//dict should be:"go away mary went away "
-					//capital 'M' gets replaced with lowercase 'm'
-				}*/
-				
 				
 				//checks if there is a punctuation symbol for each situation
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
@@ -140,11 +128,28 @@ public class AutoCompleteMe {
 						}
 						
 						temp=temp.pointers[pos];
-						
 					}
 					
 				}
-
+				
+				//the following code is for testing if we actually "put" the letters in the nodes !!WORKS 
+				
+				/*
+				temp2=root;
+				temp2=temp2.pointers[0];
+				temp2=temp2.pointers[0];
+				if (temp2.pointers[0]==null){
+					System.out.println("didnt work");
+				}
+				else{
+					System.out.println("third a in correct pos");
+				}
+				temp2=temp2.pointers[0];
+				if (temp.pointers[0]==null){
+					System.out.println("work");
+				}
+				temp2=temp2.pointers[0];
+				*/
 			}	
 		}
 		catch(Exception ex){ //error log

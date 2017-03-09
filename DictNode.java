@@ -14,7 +14,9 @@ public class DictNode{
 
 
 	public static void main (String [] args) { 
-		DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
+	//not necessary code, use for checking !!WORKS
+	
+		/*DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 		DictNode next = new DictNode(false,wordType.NOCAPS);
 		DictNode next2 = new DictNode(false,wordType.NOCAPS);
 		
@@ -39,6 +41,6 @@ public class DictNode{
 		}
 		catch(Exception ex){ //error log
 			ex.printStackTrace();
-		}
+		}*/
 	}
 }
