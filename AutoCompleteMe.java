@@ -63,6 +63,9 @@ public class AutoCompleteMe {
 	public static void readFromFile(String file_argument){  
 		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
 		boolean checkPunct=false;
+		int pos;
+		DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
+		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		
 		try{
 			
@@ -116,44 +119,30 @@ public class AutoCompleteMe {
 					word=word.toLowerCase();//word needs conversion into ALL lowercase to find the correct position for each letter
 					System.out.println(word);
 					
+					temp=root;
 					
 					for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
 						System.out.println(ch);
-						int pos = ch -'a'; // index 
+						pos = ch -'a'; // index 
 						//System.out.println("\nposition for character " +ch +" is " +pos ); //test
 						
 						
-						//if ( pos == 0 ) { // an exw 'a'
-							if (root.pointers[pos] == null ) { // an den uparxei 'a' komvos, xtise ton
+						//if ( pos == 0 ) { // in case there is not a node for 'a'
+						if (temp.pointers[pos] == null ) { //we "build" a new object in the correct position of the array of the current node
 								
-								root.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
+							temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
+						}
 								
-								//DictNode next = new DictNode(false,wordType.NOCAPS); 
-								
-								//DictNode next = new DictNode(false,wordType.NOCAPS);
-							}
-							else {// an uparxei 'a' komvos, pigaine parakatw
-								
-								
-								
-								
-								
-							}
-							
-							
-						//}
+						//if the character is the last one define the rest fields of the node
+						if (ch==word.length()){
+							temp.isTerminal= true;
+							temp.capsType = checkCaps;
+						}
+						
+						temp=temp.pointers[pos];
+						
 					}
 					
-					
-					
-					
-					
-					/*BUILD THE STRUCTURE
-					YOU FILTHY
-					ANIMAL
-					HEY
-					HEY
-					*/
 				}
 
 			}	
@@ -169,9 +158,6 @@ public class AutoCompleteMe {
 
 	 
 	public static void main (String [] args) {
-		boolean checkCAPS=false;  //check variable for keeping info for Caps Status
-		
-		
 		menu();
 	}
 
@@ -184,3 +170,16 @@ public class AutoCompleteMe {
 						System.out.println(ch);
 						
 					} */
+					
+					
+					
+				//char firstChar = word.charAt(0);//find first char of the word
+				/*if ( (checkPunct) && (Character.isUpperCase(firstChar) )  ){
+					
+					char firstCharLowerCase = Character.toLowerCase(firstChar);
+					word = firstCharLowerCase + word.substring(1,word.length());
+					//word.setCharAt(0, firstCharLowerCase); 
+					//input: "go away. Mary went away." 
+					//dict should be:"go away mary went away "
+					//capital 'M' gets replaced with lowercase 'm'
+				}*/
