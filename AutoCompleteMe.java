@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.File;
 import java.util.regex.*;
+import java.lang.*;
 
 enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
 
@@ -69,6 +70,8 @@ public class AutoCompleteMe {
 			while ( scanned_file.hasNext() ) { //scanner has tokens, so continue scanning
 				String word = scanned_file.next(); //reads word
 				
+				
+				
 				//checks Caps Status for the word
 				if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
 					checkCaps = wordType.ALLCAPS;
@@ -80,16 +83,28 @@ public class AutoCompleteMe {
 					checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
 				}
 				
+				char firstChar = word.charAt(0);//find first char of the word
+				if ( (checkPunct) && (Character.isUpperCase(firstChar) )  ){
+					
+					char firstCharLowerCase = Character.toLowerCase(firstChar);
+					word = firstCharLowerCase + word.substring(1,word.length());
+					//word.setCharAt(0, firstCharLowerCase); 
+					//input: "go away. Mary went away." 
+					//dict should be:"go away mary went away "
+					//capital 'M' gets replaced with lowercase 'm'
+				}
+				
+				
 				//checks if there is a punctuation symbol for each situation
 				checkPunct = true;
 				Pattern p = Pattern.compile("\\p{Punct}"); //compile this pattern
 				
 				//if words ends with punc , keeps only the characters before that
-				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!")
+				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // for example, we get "absolute." replaced with "absolute"
 					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){
 					word=word.substring(0, word.length()-1);
 					checkPunct= true;
-				}
+				} 
 				Matcher m = p.matcher(word);
 				
 				
