@@ -3,7 +3,7 @@ import java.io.File;
 import java.util.regex.*;
 import java.lang.*;
 
-enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
+//enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
 
 
 
@@ -59,12 +59,12 @@ public class AutoCompleteMe {
 	
 	public static void printDictionary(){
 	}
+	
 	//takes file as input and save all the words in a dictionary-like structure
 	public static void readFromFile(String file_argument){  
 		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
 		boolean checkPunct=false;
 		int pos;
-		DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		DictNode temp2 = new DictNode(false,wordType.NOCAPS);
 		try{
@@ -112,8 +112,6 @@ public class AutoCompleteMe {
 					for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
 						System.out.println(ch);
 						pos = ch -'a'; // index 
-						//System.out.println("\nposition for character " +ch +" is " +pos ); //test
-						
 						
 						//if ( pos == 0 ) { // in case there is not a node for 'a'
 						if (temp.pointers[pos] == null ) { //we "build" a new object in the correct position of the array of the current node
@@ -133,8 +131,7 @@ public class AutoCompleteMe {
 				}
 				
 				//the following code is for testing if we actually "put" the letters in the nodes !!WORKS 
-				
-				/*
+	
 				temp2=root;
 				temp2=temp2.pointers[0];
 				temp2=temp2.pointers[0];
@@ -149,8 +146,8 @@ public class AutoCompleteMe {
 					System.out.println("work");
 				}
 				temp2=temp2.pointers[0];
-				*/
-			}	
+		
+			}		
 		}
 		catch(Exception ex){ //error log
 			ex.printStackTrace();
@@ -160,7 +157,6 @@ public class AutoCompleteMe {
 		
 	}
 	
-
 	 
 	public static void main (String [] args) {
 		menu();
