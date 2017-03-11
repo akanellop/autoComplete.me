@@ -73,32 +73,29 @@ public class AutoCompleteMe {
 		temp = root;
 		//String str = "";
 		
+		int chtemp;
 		char ch;
 		
 		
-			for (int i = 0 ; i<25 ; i++) { // gia kathe deikth pou exei o root
-				while (1){
-					if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
+		for (int i = 0 ; i<26 ; i++) { // gia kathe deikth pou exei o root
+			while (true){
+				if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
 						//  //tote auto exei na mas dwsei, opote as to psaxoume perissotero
-								//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
-								//mipws xreiazetai for loop?
 							
-							String str = ""; // arxikopoihsh string
-							
-							ch = i + 'a'; // not sure
-							str = str + ch;
-							
-							if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
-								System.out.println("Word in Dictionary: " + str);
-							}
-							
-							temp=temp.pointers[i]; //next
-							//i=0;
-						}
+						//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
+						//mipws xreiazetai for loop?		
+					String str = ""; // arxikopoihsh string	
+					chtemp = i + 'a'; // not sure
+					ch=(char)chtemp;
+					str = str + ch;							
 						
-					}			
-				}
-			}
+					if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
+						System.out.println("Word in Dictionary: " + str);
+					}		
+					temp=temp.pointers[i]; //next
+					//i=0;
+				}				
+			}			
 		}
 	}
 	
@@ -164,7 +161,7 @@ public class AutoCompleteMe {
 								
 								
 						//if the character is the last one define the rest fields of the node
-						if ( pos == word.length - 1){
+						if ( pos == word.length() - 1){
 							temp.isTerminal = true;
 							temp.capsType = checkCaps;
 						}
