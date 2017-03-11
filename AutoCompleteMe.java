@@ -57,47 +57,41 @@ public class AutoCompleteMe {
 		
 	}
 	
-	public static void printDictionary(){
-		
-		/* tha ksekinaei apo to root kai tha psaxnei ola tou ta paidia
-		epeita tha psaxnei ta paidia twn paidiwn k.o.k.
-		Ola auta se ena for loop diladi.
-		Tha xrisimopoihsoume ena String to opoio tha to xtizoume siga siga xarakthra xarakthra
-		se kathe komvo pou vriskomaste, tha exoume enan char o 
-		 
-		ch = pos + 'a';*/
-		
-		DictNode temp = new DictNode(false,wordType.NOCAPS);
-		//DictNode temp2 = new DictNode(false,wordType.NOCAPS);
-		
-		temp = root;
-		//String str = "";
+	
+	public static void traversalPrint(DictNode current, String str){
 		
 		int chtemp;
 		char ch;
 		
+		DictNode temp = new DictNode(false,wordType.NOCAPS);
+		temp = current;
 		
-		for (int i = 0 ; i<26 ; i++) { // gia kathe deikth pou exei o root
-			while (true){
-				if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
-						//  //tote auto exei na mas dwsei, opote as to psaxoume perissotero
-							
-						//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
-						//mipws xreiazetai for loop?		
-					String str = ""; // arxikopoihsh string	
-					chtemp = i + 'a'; // not sure
-					ch=(char)chtemp;
-					str = str + ch;							
-						
-					if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
-						System.out.println("Word in Dictionary: " + str);
-					}		
-					temp=temp.pointers[i]; //next
-					//i=0;
-				}				
-			}			
+		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
+			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
+			
+				chtemp = i + 'a'; // not sure
+				ch=(char)chtemp;
+				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
+				
+				temp=current.pointers[i]; // pername sto paidi pleon
+
+				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
+					System.out.println("Word in Dictionary: " + str);
+				}
+				traversalPrint(temp, str);
+			}
+			
+			return ;
 		}
 	}
+	
+	  public static void printDictionary(){
+		
+		String str="";
+		
+		traversalPrint(root,str);
+	} 
+	
 	
 	//takes file as input and save all the words in a dictionary-like structure
 	public static void readFromFile(String file_argument){  
@@ -173,7 +167,7 @@ public class AutoCompleteMe {
 				
 				//the following code is for testing if we actually "put" the letters in the nodes !!WORKS 
 	
-				temp2=root;
+				/*temp2=root;
 				temp2=temp2.pointers[0];
 				temp2=temp2.pointers[0];
 				if (temp2.pointers[0]==null){
@@ -187,7 +181,7 @@ public class AutoCompleteMe {
 					System.out.println("work");
 				}
 				temp2=temp2.pointers[0];
-		
+				*/
 			}		
 		}
 		catch(Exception ex){ //error log
@@ -225,3 +219,38 @@ public class AutoCompleteMe {
 					//dict should be:"go away mary went away "
 					//capital 'M' gets replaced with lowercase 'm'
 				}*/
+				
+				
+				
+				
+				/*
+		//DictNode temp = new DictNode(false,wordType.NOCAPS);
+		//DictNode temp2 = new DictNode(false,wordType.NOCAPS);
+		
+		temp = root;
+		//String str = "";
+		
+		int chtemp;
+		char ch;
+		
+		
+		for (int i = 0 ; i<26 ; i++) { // gia kathe deikth pou exei o root
+			while (true){
+				if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
+						//  //tote auto exei na mas dwsei, opote as to psaxoume perissotero
+							
+						//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
+						//mipws xreiazetai for loop?		
+					String str = ""; // arxikopoihsh string	
+					chtemp = i + 'a'; // not sure
+					ch=(char)chtemp;
+					str = str + ch;							
+						
+					if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
+						System.out.println("Word in Dictionary: " + str);
+					}		
+					temp=temp.pointers[i]; //next
+					//i=0;
+				}				
+			}			
+		}*/
