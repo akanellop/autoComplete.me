@@ -67,17 +67,21 @@ public class AutoCompleteMe {
 		temp = current;
 		
 		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
+		
 			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
-			
+			System.out.println("called traversal");
 				chtemp = i + 'a'; // not sure
 				ch=(char)chtemp;
 				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
 				
-				temp=current.pointers[i]; // pername sto paidi pleon
+				
 
 				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
 					System.out.println("Word in Dictionary: " + str);
 				}
+				
+				temp=current.pointers[i]; // pername sto paidi pleon
+				
 				traversalPrint(temp, str);
 			}
 			
@@ -100,6 +104,9 @@ public class AutoCompleteMe {
 		int pos;
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		DictNode temp2 = new DictNode(false,wordType.NOCAPS);
+		
+		int counter=0;
+		
 		try{
 			
 			String file_name = file_argument;
@@ -107,7 +114,7 @@ public class AutoCompleteMe {
 			
 			while ( scanned_file.hasNext() ) { //scanner has tokens, so continue scanning
 				String word = scanned_file.next(); //reads word
-					
+				word = word.replaceAll("[^A-Za-z]","?"); //replace all the symbols that are not letters with symbol "?"
 				
 				//checks Caps Status for the word
 				if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
@@ -134,17 +141,16 @@ public class AutoCompleteMe {
 				Matcher m = p.matcher(word);//checks if there are other punc symbols in the word
 				
 				
-				//if you don't find the pattern in the word seperate the letters to put them "in" the nodes
+				//if you don't find the pattern in the word and the word inst blank seperate the letters to put them "in" the nodes
 				// reminder :we do this for each word, we are inside a while loop
-				if (!(m.find()) ){
+				if (!(m.find()) && !(word.equals(""))){ 
 					
 					word=word.toLowerCase();//word needs conversion into ALL lowercase to find the correct position for each letter
 					System.out.println(word);
 					
 					temp=root;// for each word, we start from the root 
-					
+					counter=0;
 					for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
-						System.out.println(ch);
 						pos = ch -'a'; // index 
 						
 						//if ( pos == 0 ) { // in case there is not a node for 'a'
@@ -153,36 +159,19 @@ public class AutoCompleteMe {
 							temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
 						}
 								
-								
-						//if the character is the last one define the rest fields of the node
-						if ( pos == word.length() - 1){
+						 
+						 //if the character is the last one define the rest fields of the node
+						if ( counter == word.length() -1){
 							temp.isTerminal = true;
 							temp.capsType = checkCaps;
 						}
 						
+						counter=counter+1;
 						temp=temp.pointers[pos]; // iteration for next node
 					}
 					
 				}
-				
-				//the following code is for testing if we actually "put" the letters in the nodes !!WORKS 
-	
-				/*temp2=root;
-				temp2=temp2.pointers[0];
-				temp2=temp2.pointers[0];
-				if (temp2.pointers[0]==null){
-					System.out.println("didnt work");
-				}
-				else{
-					System.out.println("third a in correct pos");
-				}
-				temp2=temp2.pointers[0];
-				if (temp.pointers[0]==null){
-					System.out.println("work");
-				}
-				temp2=temp2.pointers[0];
-				*/
-			}		
+			}	
 		}
 		catch(Exception ex){ //error log
 			ex.printStackTrace();
@@ -254,3 +243,4 @@ public class AutoCompleteMe {
 				}				
 			}			
 		}*/
+		

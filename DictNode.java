@@ -13,12 +13,7 @@ public class DictNode{
 	
 
 	public static void main (String [] args) { 
-		String temp = "pww";
-	
-		//for (int i = 0 ; i<4 ; i++) {
-		System.out.println(temp.length());
-	//	}
-			
+
 	}
 }
 
