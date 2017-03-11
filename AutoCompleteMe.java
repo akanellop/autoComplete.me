@@ -69,7 +69,6 @@ public class AutoCompleteMe {
 		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
 		
 			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
-			System.out.println("called traversal");
 				chtemp = i + 'a'; // not sure
 				ch=(char)chtemp;
 				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
@@ -79,13 +78,15 @@ public class AutoCompleteMe {
 				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
 					System.out.println("Word in Dictionary: " + str);
 				}
-				
 				temp=current.pointers[i]; // pername sto paidi pleon
-				
+                //System.out.println("str before going in the kid: " + str);
 				traversalPrint(temp, str);
+				//System.out.println("str returnig from the kid: " + str);
+				str="";
+				
 			}
 			
-			return ;
+			//return ;
 		}
 	}
 	
