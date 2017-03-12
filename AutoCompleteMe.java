@@ -13,6 +13,7 @@ public class AutoCompleteMe {
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 	static int another_branch = 0;
 	static int  counterl = 0;
+	static int flag = 0;
 	static  String strTemp;
 	
 	
@@ -62,7 +63,7 @@ public class AutoCompleteMe {
 		
 	}
 	
-	public static String traversalPrint(DictNode current, String str){
+	public static void traversalPrint(DictNode current, String str){
     	
 		int chtemp;
 		char ch;
@@ -72,30 +73,42 @@ public class AutoCompleteMe {
 		temp = current;
 			
 		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
-			if (current.pointers[i] != null ) {//if find node with letter
-			
-				
+			if (current.pointers[i] != null ) {//if you find a kid that has a letter, search its path
+												//this happens recursively..
+												
 				//another_branch = 0;
 				chtemp = i + 'a'; 
 				ch=(char)chtemp;
 				str = str + ch;		// put the letter in the string
+				//flag = 0;
 				
 				temp=current.pointers[i]; // passing onto the child
 				//counterl=counterl+1;;
-				if ( temp.isTerminal == true ) { //check caps also on how to print this shit,, print if the word is completed
-					System.out.println("Word in Dictionary: " + str);
+				if ( temp.isTerminal == true ) { 
+					if (temp.capsType == wordType.ALLCAPS){//make it all caps
+						//System.out.println("this word is ALLCAPS");
+						str=str.toUpperCase();
+					}
+					else if ( temp.capsType == wordType.FIRSTCAP) {//make it first capital
+						//System.out.println("this word is FIRSTCAP");
+						str=str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
+					}
+					
+					System.out.println("Word in Dictionary: " + str);//print the word now
+					//flag = 1;
 				}
-				str = traversalPrint(temp,str);//continue searccing the tree
+				
+				traversalPrint(temp,str);//continue searccing the tree
 
-
+				//System.out.println("str = " +str);
+				//System.out.println("this str has length of : " +str.length());
                 //every time i return from the traversal method i erase the previous node- letter which was given
-				if(str.length()>0){
+				if(str.length()>0 ) {// flag == 1){
 					str = str.replace(str.substring(str.length()-1), "");
 				}
+				//System.out.println("str AFTER REPLACE = " +str);
 			}
 		}
-		
-		return str;
 	}
 
 	
@@ -188,7 +201,44 @@ public class AutoCompleteMe {
 		}
 	}
 	public static void suggestWordPhrase(String word_phrase){//after finishing the structure
+	
+		int pos;//index
+		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		
+		int iter = 0;
+		int chtemp ;
+		String str="";
+		
+		for ( char ch : word_phrase.toCharArray()) { // gia kathe gramma
+			
+			pos = ch -'a'; // vres ti thesi tou sto dendro
+			temp = root; //init
+			
+			if (temp.pointers[pos] == null ) { //den uparxei to gramma pou psaxneis, sorry
+				str = "Sorry, there are no words that start with that wordphrase :(";
+				System.out.println(str);
+				break;
+			}
+			else {//uparxei paidi
+				temp=temp.pointers[pos]; // mpes mesa
+				
+				/*chtemp = i + 'a'; 
+				ch=(char)chtemp;*/
+				
+				
+				str = str + ch; // xtise to string siga siga
+				//psaxe to paidi, anadromh??
+				//otan ftaseis sto teleutaio gramma tou wordphrase sto dendro, psaxe ola ta paidia tou
+				//kai ksana 
+				//kai ksana
+			}
+			
+		
+			iter = iter + 1 ;
+			/*if (iter > word_phrase.length()) { //peritto
+				break;
+			} */
+		}
 	}
 	
 	 
