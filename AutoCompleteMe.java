@@ -58,7 +58,7 @@ public class AutoCompleteMe {
 	}
 	
 	
-	public static void traversalPrint(DictNode current, String str){
+	public static String traversalPrint(DictNode current, String str){
 		
 		int chtemp;
 		char ch;
@@ -66,28 +66,39 @@ public class AutoCompleteMe {
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		temp = current;
 		
+		//String str ="";
+		
+		if ( temp == root ) {//safe reasons
+			 str = "";
+		} 
+		
 		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
 		
 			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
+			
 				chtemp = i + 'a'; // not sure
 				ch=(char)chtemp;
 				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
 				
+				temp=current.pointers[i]; // pername sto paidi pleon
 				
+				str = traversalPrint(temp,str);
 
 				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
 					System.out.println("Word in Dictionary: " + str);
 				}
-				temp=current.pointers[i]; // pername sto paidi pleon
+				
                 //System.out.println("str before going in the kid: " + str);
-				traversalPrint(temp, str);
+				
 				//System.out.println("str returnig from the kid: " + str);
-				str="";
+			//	str="";
 				
 			}
-			
+			//return str;
 			//return ;
 		}
+		
+		return str;
 	}
 	
 	  public static void printDictionary(){
