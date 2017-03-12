@@ -4,7 +4,8 @@ import java.util.regex.*;
 import java.lang.*;
 
 //enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
-
+//katerina kanellopoulou
+//lefteris loukas
 
 
 public class AutoCompleteMe {
