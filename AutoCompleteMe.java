@@ -10,6 +10,7 @@ import java.lang.*;
 public class AutoCompleteMe {
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
+	static int flag = 0;
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -68,36 +69,45 @@ public class AutoCompleteMe {
 		
 		//String str ="";
 		
-		if ( temp == root ) {//safe reasons
+		/*if ( temp == root ) {//safe reasons
 			 str = "";
-		} 
+		} */
+		 //final static int flag = 0 ;
+		
 		
 		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
 		
 			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
 			
+				if ( flag == 0 ) {
+					str = "";
+				} 
+				
+				flag = 1;
 				chtemp = i + 'a'; // not sure
 				ch=(char)chtemp;
 				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
 				
 				temp=current.pointers[i]; // pername sto paidi pleon
 				
+				//str =
 				str = traversalPrint(temp,str);
 
 				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
 					System.out.println("Word in Dictionary: " + str);
 				}
-				
-                //System.out.println("str before going in the kid: " + str);
-				
-				//System.out.println("str returnig from the kid: " + str);
-			//	str="";
+				flag=0; // mipws thelei ena if edw? // kathe fora pou feugei apo to kladi, midenizei to string
+				//auto douleuei kala otan exeis px "apple" kai "orange"
+				//oxi omws otan exeis "apple" kai "appricots"
+				//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
+			 
 				
 			}
-			//return str;
-			//return ;
+			else {
+				
+			}
+			//return str;	
 		}
-		
 		return str;
 	}
 	
