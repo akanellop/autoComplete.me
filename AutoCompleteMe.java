@@ -10,7 +10,7 @@ import java.lang.*;
 public class AutoCompleteMe {
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
-	static int flag = 0;
+	static int another_branch = 0;
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -66,50 +66,45 @@ public class AutoCompleteMe {
 		
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		temp = current;
-		
-		//String str ="";
-		
-		/*if ( temp == root ) {//safe reasons
-			 str = "";
-		} */
-		 //final static int flag = 0 ;
-		
-		
+			
 		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
 		
 			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
 			
-				if ( flag == 0 ) {
+				if ( another_branch == 1 ) { //an eimai se diaforetiko monopati apo prin, tote midenise to string
+									//vevaia ti ginetai me to APPles kai to APPricots?
 					str = "";
 				} 
 				
-				flag = 1;
+				another_branch = 0;
 				chtemp = i + 'a'; // not sure
 				ch=(char)chtemp;
 				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
 				
 				temp=current.pointers[i]; // pername sto paidi pleon
-				
-				//str =
+
 				str = traversalPrint(temp,str);
 
 				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
 					System.out.println("Word in Dictionary: " + str);
+					//another_branch =0;
+					another_branch = 1;//auto prepei na ginetai 1 otan feugoume apo *olokliro* *GONIKO* kladi
+					//kathe fora pou feugei apo to kladi, midenizei to string
+					//auto douleuei kala otan exeis px "apple" kai "orange"
+					//oxi omws otan exeis "apple" kai "appricots"
+					//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
+					
+					
 				}
-				flag=0; // mipws thelei ena if edw? // kathe fora pou feugei apo to kladi, midenizei to string
-				//auto douleuei kala otan exeis px "apple" kai "orange"
-				//oxi omws otan exeis "apple" kai "appricots"
-				//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
-			 
-				
+					
 			}
 			else {
-				
 			}
 			//return str;	
 		}
 		return str;
 	}
+	
 	
 	  public static void printDictionary(){
 		
