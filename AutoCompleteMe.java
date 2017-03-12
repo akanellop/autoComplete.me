@@ -12,6 +12,9 @@ public class AutoCompleteMe {
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 	static int another_branch = 0;
+	static int  counterl = 0;
+	static  String strTemp;
+	
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -59,53 +62,42 @@ public class AutoCompleteMe {
 		
 	}
 	
-	
 	public static String traversalPrint(DictNode current, String str){
-		
+    	
 		int chtemp;
 		char ch;
+	//	String give="";
 		
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		temp = current;
 			
-		for (int i = 0 ; i < 26 ; i++ ) {//checkarw ola ta paidia
-		
-			if (current.pointers[i] != null ) {//op, vrika ena paidi pou exei periexomeno!
+		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
+			if (current.pointers[i] != null ) {//if find node with letter
 			
-				if ( another_branch == 1 ) { //an eimai se diaforetiko monopati apo prin, tote midenise to string
-									//vevaia ti ginetai me to APPles kai to APPricots?
-					str = "";
-				} 
 				
-				another_branch = 0;
-				chtemp = i + 'a'; // not sure
+				//another_branch = 0;
+				chtemp = i + 'a'; 
 				ch=(char)chtemp;
-				str = str + ch;		// vriskw to xaraktira tou kai ton vazw sto string 
+				str = str + ch;		// put the letter in the string
 				
-				temp=current.pointers[i]; // pername sto paidi pleon
-
-				str = traversalPrint(temp,str);
-
-				if ( temp.isTerminal == true ) { //check caps also on how to print this shit
+				temp=current.pointers[i]; // passing onto the child
+				//counterl=counterl+1;;
+				if ( temp.isTerminal == true ) { //check caps also on how to print this shit,, print if the word is completed
 					System.out.println("Word in Dictionary: " + str);
-					//another_branch =0;
-					another_branch = 1;//auto prepei na ginetai 1 otan feugoume apo *olokliro* *GONIKO* kladi
-					//kathe fora pou feugei apo to kladi, midenizei to string
-					//auto douleuei kala otan exeis px "apple" kai "orange"
-					//oxi omws otan exeis "apple" kai "appricots"
-					//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
-					
-					
 				}
-					
+				str = traversalPrint(temp,str);//continue searccing the tree
+
+
+                //every time i return from the traversal method i erase the previous node- letter which was given
+				if(str.length()>0){
+					str = str.replace(str.substring(str.length()-1), "");
+				}
 			}
-			else {
-			}
-			//return str;	
 		}
+		
 		return str;
 	}
-	
+
 	
 	  public static void printDictionary(){
 		
@@ -177,15 +169,15 @@ public class AutoCompleteMe {
 							temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
 						}
 								
-						 
-						 //if the character is the last one define the rest fields of the node
-						if ( counter == word.length() -1){
+						temp=temp.pointers[pos];//passing onto the child
+						//if the character is the last one define the rest fields of the node
+						if ( counter == word.length()-1 ){
 							temp.isTerminal = true;
 							temp.capsType = checkCaps;
 						}
 						
 						counter=counter+1;
-						temp=temp.pointers[pos]; // iteration for next node
+						//temp=temp.pointers[pos]; // wrong: iteration for next node
 					}
 					
 				}
@@ -262,3 +254,22 @@ public class AutoCompleteMe {
 			}			
 		}*/
 		
+		
+		
+						
+				
+				//if ( temp.isTerminal == true ) { //check caps also on how to print this shit
+				//	System.out.println("Word in Dictionary: " + give);
+					
+					//another_branch =0;
+					//	another_branch = 1;//auto prepei na ginetai 1 otan feugoume apo *olokliro* *GONIKO* kladi
+					//kathe fora pou feugei apo to kladi, midenizei to string
+					//auto douleuei kala otan exeis px "apple" kai "orange"
+					//oxi omws otan exeis "apple" kai "appricots"
+					//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
+				//}
+				/*if (counterl>0 && str!=give ){
+						str = str.replace(str.substring(str.length()-1), "");
+				}
+				counterl=counterl-1;
+					*/
