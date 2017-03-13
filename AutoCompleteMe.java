@@ -2,8 +2,6 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.regex.*;
 import java.lang.*;
-
-//enum wordType {ALLCAPS, FIRSTCAP, NOCAPS}; //enum for CAPS info for the words
 //katerina kanellopoulou
 //lefteris loukas
 
@@ -11,11 +9,6 @@ import java.lang.*;
 public class AutoCompleteMe {
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
-	static int another_branch = 0;
-	static int  counterl = 0;
-	static int flag = 0;
-	static  String strTemp;
-	
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -67,10 +60,8 @@ public class AutoCompleteMe {
     	
 		int chtemp;
 		char ch;
-	//	String give="";
 		
 		DictNode temp = current ; //new DictNode(false,wordType.NOCAPS);
-		//temp = current;
 			
 		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
 			if (current.pointers[i] != null ) {//if you find a kid that has a letter, search its path
@@ -79,7 +70,6 @@ public class AutoCompleteMe {
 				chtemp = i + 'a'; 
 				ch=(char)chtemp;
 				str = str + ch;		// put the letter in the string
-				
 				
 				temp=current.pointers[i]; // passing onto the child
 				
@@ -95,24 +85,19 @@ public class AutoCompleteMe {
 					}
 					
 					System.out.println("Word in Dictionary: " + str);//print the word now
-					//flag = 1;
 				}
 				
 				traversalPrint(temp,str);//continue searching the tree , call method recursively
-                
-			//	if(str.length()>0 ) {
+             
 				str = str.substring(0,str.length()-1); ////every time i return from the traversal method
 													//i erase the previous node- letter which was given
-				//}
 			}
 		}
 	}
 
 	
 	  public static void printDictionary(){
-		
 		String str="";
-		
 		traversalPrint(root,str);
 	} 
 	
@@ -187,7 +172,6 @@ public class AutoCompleteMe {
 						}
 						
 						counter=counter+1;
-						//temp=temp.pointers[pos]; // wrong: iteration for next node
 					}
 					
 				}
@@ -197,44 +181,33 @@ public class AutoCompleteMe {
 			ex.printStackTrace();
 		}
 	}
+
 	public static void suggestWordPhrase(String word_phrase){//after finishing the structure
 	
 		int pos;//index
 		DictNode temp = new DictNode(false,wordType.NOCAPS);
 		
-		int iter = 0;
+		int counter = 0;
 		int chtemp ;
 		String str="";
+		temp = root; //initiliaze current object - will be root of the tree
 		
-		for ( char ch : word_phrase.toCharArray()) { // gia kathe gramma
+		for ( char ch : word_phrase.toCharArray()) { //for each letter in the string
+			counter = counter +1;
+			pos = ch -'a'; // find the correct node in current object
 			
-			pos = ch -'a'; // vres ti thesi tou sto dendro
-			temp = root; //init
-			
-			if (temp.pointers[pos] == null ) { //den uparxei to gramma pou psaxneis, sorry
+			if (temp.pointers[pos] == null ) { //if there isnt a node for the letter we are searching
 				str = "Sorry, there are no words that start with that wordphrase :(";
 				System.out.println(str);
 				break;
 			}
-			else {//uparxei paidi
-				temp=temp.pointers[pos]; // mpes mesa
-				
-				/*chtemp = i + 'a'; 
-				ch=(char)chtemp;*/
-				
-				
-				str = str + ch; // xtise to string siga siga
-				//psaxe to paidi, anadromh??
-				//otan ftaseis sto teleutaio gramma tou wordphrase sto dendro, psaxe ola ta paidia tou
-				//kai ksana 
-				//kai ksana
+			else {//if there is a node 
+				temp=temp.pointers[pos]; // pass onto it
+				str = str + ch; //and put the letter in the string
 			}
-			
-		
-			iter = iter + 1 ;
-			/*if (iter > word_phrase.length()) { //peritto
-				break;
-			} */
+		}
+		if(counter==word_phrase.length()){
+			traversalPrint(temp,str);
 		}
 	}
 	
