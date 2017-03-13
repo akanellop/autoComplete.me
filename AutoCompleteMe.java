@@ -138,8 +138,7 @@ public class AutoCompleteMe {
 				//while words ends with punc , keeps only the characters before that
 				checkPunct = false;//initialize for this word
 				
-				while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // erase punct symblos in the end of the word
-					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){// for example, we get "absolute." replaced with "absolute"
+				while(word.endsWith( "?")){// for example, we get "absolute." replaced with "absolute"
 					word=word.substring(0, word.length()-1);
 					checkPunct= true;
 				} 
@@ -218,78 +217,10 @@ public class AutoCompleteMe {
 
 
 }
-
-	
-					/* for (int i = 0 ; i< word.length(); i++){
-						char ch = word.charAt(i);
-						System.out.println(ch);
-						
-					} */
-					
-					
-					
-				//char firstChar = word.charAt(0);//find first char of the word
-				/*if ( (checkPunct) && (Character.isUpperCase(firstChar) )  ){
-					
-					char firstCharLowerCase = Character.toLowerCase(firstChar);
-					word = firstCharLowerCase + word.substring(1,word.length());
-					//word.setCharAt(0, firstCharLowerCase); 
-					//input: "go away. Mary went away." 
-					//dict should be:"go away mary went away "
-					//capital 'M' gets replaced with lowercase 'm'
-				}*/
-				
-				
-				
-				
-				/*
-		//DictNode temp = new DictNode(false,wordType.NOCAPS);
-		//DictNode temp2 = new DictNode(false,wordType.NOCAPS);
-		
-		temp = root;
-		//String str = "";
-		
-		int chtemp;
-		char ch;
-		
-		
-		for (int i = 0 ; i<26 ; i++) { // gia kathe deikth pou exei o root
-			while (true){
-				if ( temp.pointers[i] != null ) { // an ontws uparxei paidi
-						//  //tote auto exei na mas dwsei, opote as to psaxoume perissotero
-							
-						//vevaia mporei na theloume na psaxoume perissotero KAI auto to paidi
-						//mipws xreiazetai for loop?		
-					String str = ""; // arxikopoihsh string	
-					chtemp = i + 'a'; // not sure
-					ch=(char)chtemp;
-					str = str + ch;							
-						
-					if ( temp.isTerminal == true ) { // check temp.capsType on how we want to print this shit
-						System.out.println("Word in Dictionary: " + str);
-					}		
-					temp=temp.pointers[i]; //next
-					//i=0;
-				}				
-			}			
-		}*/
-		
-		
-		
-						
-				
-				//if ( temp.isTerminal == true ) { //check caps also on how to print this shit
-				//	System.out.println("Word in Dictionary: " + give);
-					
-					//another_branch =0;
-					//	another_branch = 1;//auto prepei na ginetai 1 otan feugoume apo *olokliro* *GONIKO* kladi
-					//kathe fora pou feugei apo to kladi, midenizei to string
-					//auto douleuei kala otan exeis px "apple" kai "orange"
-					//oxi omws otan exeis "apple" kai "appricots"
-					//se auth thn periptwsh, sti leksi appricots, tha svistei to koino monopati mexri stigmhs, dhladh to "app"ricots
-				//}
-				/*if (counterl>0 && str!=give ){
-						str = str.replace(str.substring(str.length()-1), "");
-				}
-				counterl=counterl-1;
-					*/
+/*
+while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // erase punct symblos in the end of the word
+					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){// for example, we get "absolute." replaced with "absolute"
+					word=word.substring(0, word.length()-1);
+					checkPunct= true;
+				} 
+				*/
