@@ -69,21 +69,21 @@ public class AutoCompleteMe {
 		char ch;
 	//	String give="";
 		
-		DictNode temp = new DictNode(false,wordType.NOCAPS);
-		temp = current;
+		DictNode temp = current ; //new DictNode(false,wordType.NOCAPS);
+		//temp = current;
 			
 		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
 			if (current.pointers[i] != null ) {//if you find a kid that has a letter, search its path
 												//this happens recursively..
 												
-				//another_branch = 0;
 				chtemp = i + 'a'; 
 				ch=(char)chtemp;
 				str = str + ch;		// put the letter in the string
-				//flag = 0;
+				
 				
 				temp=current.pointers[i]; // passing onto the child
-				//counterl=counterl+1;;
+				
+				
 				if ( temp.isTerminal == true ) { 
 					if (temp.capsType == wordType.ALLCAPS){//make it all caps
 						//System.out.println("this word is ALLCAPS");
@@ -98,15 +98,12 @@ public class AutoCompleteMe {
 					//flag = 1;
 				}
 				
-				traversalPrint(temp,str);//continue searccing the tree
-
-				//System.out.println("str = " +str);
-				//System.out.println("this str has length of : " +str.length());
-                //every time i return from the traversal method i erase the previous node- letter which was given
-				if(str.length()>0 ) {// flag == 1){
-					str = str.replace(str.substring(str.length()-1), "");
-				}
-				//System.out.println("str AFTER REPLACE = " +str);
+				traversalPrint(temp,str);//continue searching the tree , call method recursively
+                
+			//	if(str.length()>0 ) {
+				str = str.substring(0,str.length()-1); ////every time i return from the traversal method
+													//i erase the previous node- letter which was given
+				//}
 			}
 		}
 	}
