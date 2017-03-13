@@ -56,6 +56,7 @@ public class AutoCompleteMe {
 		
 	}
 	
+	
 	public static void traversalPrint(DictNode current, String str){
     	
 		int chtemp;
@@ -95,11 +96,13 @@ public class AutoCompleteMe {
 		}
 	}
 
-	
-	  public static void printDictionary(){
+	//Prints the Dictionary 
+	public static void printDictionary(){
+		  
 		String str="";
 		traversalPrint(root,str);
 	} 
+	
 	
 	
 	//takes file as input and save all the words in a dictionary-like structure
@@ -181,33 +184,36 @@ public class AutoCompleteMe {
 		}
 	}
 
-	public static void suggestWordPhrase(String word_phrase){//after finishing the structure
+	public static int  suggestWordPhrase(String word_phrase){//after the structure is finished, the program can show suggestions to the user
 	
 		int pos;//index
-		DictNode temp = new DictNode(false,wordType.NOCAPS);
+		DictNode temp = root;//initiliaze current object as the root of the tree
 		
 		int counter = 0;
 		int chtemp ;
+		
 		String str="";
-		temp = root; //initiliaze current object - will be root of the tree
+		word_phrase=word_phrase.toLowerCase();
 		
 		for ( char ch : word_phrase.toCharArray()) { //for each letter in the string
-			counter = counter +1;
+		
+			counter = counter + 1;
 			pos = ch -'a'; // find the correct node in current object
 			
-			if (temp.pointers[pos] == null ) { //if there isnt a node for the letter we are searching
+			if (temp.pointers[pos] == null ) { //if there isn't a node for the letter we are searching
 				str = "Sorry, there are no words that start with that wordphrase :(";
 				System.out.println(str);
-				break;
+				return -1;
 			}
 			else {//if there is a node 
 				temp=temp.pointers[pos]; // pass onto it
-				str = str + ch; //and put the letter in the string
+				//str = str + ch; //and put the letter in the string
 			}
 		}
-		if(counter==word_phrase.length()){
+		if ( counter==word_phrase.length() ){ //Call traversalPrint to find all suggestions
 			traversalPrint(temp,str);
 		}
+		return 1;
 	}
 	
 	 
