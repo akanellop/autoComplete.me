@@ -26,21 +26,20 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	
 	public static FileInputStream loadSerialiser(String file_argument){
 		
-		
-		/*
+		String strLoad="";
 		try {
 			
-			FileInputStream fileIn = new FileInputStream("loadfromhere"+".ser");
-				
-		}catch(IOException i) {
-			i.printStackTrace();
+			fileIn = new FileInputStream(file_argument+".ser");
+			in = new ObjectInputStream(fileIn);
+			
+			strLoad = (String) in.readObject();
+		}catch(ClassNotFoundException cne) {
+			cne.printStackTrace();
 			return fileIn;
-		}catch(ClassNotFoundException c) {
-			System.out.println(" class not found");
-			c.printStackTrace();
-		return fileIn;
+		}catch(IOException ioe) {
+			ioe.printStackTrace();
+			return fileIn;
 		}
-		*/
 		return fileIn;
 	}
 	
@@ -104,6 +103,17 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	
 	public static void loadFromFile(String file_argument)  { // Serialisation to be done later
 		
+		try {
+			fileIn= loadSerialiser(file_argument);
+			needs_serialization=9;
+			
+			in.close();
+			fileIn.close();
+			
+			needs_serialization = 3;
+		}catch(IOException i) {
+			i.printStackTrace();
+		}
 		//serialiser(1);
 		/*String file_name = file_argument;
 		
@@ -131,8 +141,6 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	
 	
 	public static void saveToFile(String file_argument) { // Serialisation to be done later
-		
-		
 		
 		try {
 			//String file_name = file_argument;
