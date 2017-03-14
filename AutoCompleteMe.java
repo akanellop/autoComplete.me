@@ -26,16 +26,12 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	
 	public static FileInputStream loadSerialiser(String file_argument){
 		
-		String strLoad="";
+		String word="";
 		try {
 			
 			fileIn = new FileInputStream(file_argument+".ser");
 			in = new ObjectInputStream(fileIn);
 			
-			strLoad = (String) in.readObject();
-		}catch(ClassNotFoundException cne) {
-			cne.printStackTrace();
-			return fileIn;
 		}catch(IOException ioe) {
 			ioe.printStackTrace();
 			return fileIn;
@@ -63,7 +59,7 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	}
 	
 	//MENU method prints out the menu in terminal and waits user's input
-	public static void menu() {
+	public static void menu() throws ClassNotFoundException,NullPointerException {
 		while(true){
 			
 			System.out.println("-----------MENU-----------\n"  
@@ -101,12 +97,53 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 		}
 	}
 	
-	public static void loadFromFile(String file_argument)  { // Serialisation to be done later
+	public static void loadFromFile(String file_argument)  throws ClassNotFoundException,NullPointerException{ // Serialisation to be done later
+		
+		
 		
 		try {
+			int pos;
+			DictNode temp = new DictNode(false,wordType.NOCAPS);
+			String word = (String)in.readObject();
+			wordType checkCaps ;//= wordType.NOCAPS; //variable so we can check CAPS status for each word
+		
 			fileIn= loadSerialiser(file_argument);
-			needs_serialization=9;
+			needs_serialization=9; //peritto?
 			
+			root=temp;
+			while(word!=null){//mexri na teleiwsoun oi lekseis 
+				//word = (String) in.readObject();
+				int counter=0;
+				for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
+					pos = ch -'a'; // index 
+						
+					//if ( pos == 0 ) { // in case there is not a node for 'a'
+					if (temp.pointers[pos] == null ) { //we "build" a new object in the correct position of the array of the current node
+							
+						temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
+					}
+					
+					if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
+						checkCaps = wordType.ALLCAPS;
+					}
+					else if(Character.isUpperCase(word.charAt(0)) ){//&& checkPunct==false){ //first char is UPPERCASE, FIRSTCAP
+						checkCaps = wordType.FIRSTCAP;
+					}
+					else {
+						checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
+					}
+							
+					temp=temp.pointers[pos];//passing onto the child
+					//if the character is the last one define the rest fields of the node
+					if ( counter == word.length()-1 ){
+						temp.isTerminal = true;
+						temp.capsType = checkCaps;
+					}
+					counter=counter+1;
+				}
+				word = (String) in.readObject();
+			}
+			//gia oles tis lekseis
 			in.close();
 			fileIn.close();
 			
@@ -328,7 +365,7 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	}
 	
 	 
-	public static void main (String [] args) {
+	public static void main (String [] args) throws ClassNotFoundException,NullPointerException {
 		menu();
 	}
 
