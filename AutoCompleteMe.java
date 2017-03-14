@@ -4,11 +4,64 @@ import java.util.regex.*;
 import java.lang.*;
 //katerina kanellopoulou
 //lefteris loukas
+import java.io.*;
 
 
-public class AutoCompleteMe {
+public class AutoCompleteMe implements java.io.Serializable{//, throws IOException, FileNotFoundException{
+	
+	 //static FileInputStream fileIn = new FileInputStream("loadfromhere"+".ser");
+	 // = new ObjectInputStream(fileIn);
+	
+	 //static FileOutputStream fileOut = new FileOutputStream("savehere"+".ser");
+	 //static ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	
+	static int needs_serialization = 0;
+	
+	static FileInputStream fileIn ;
+	static FileOutputStream fileOut ;
+	static ObjectOutputStream out ;//= new ObjectOutputStream(file);;
+	static ObjectInputStream in;
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
+	
+	public static FileInputStream loadSerialiser(String file_argument){
+		
+		
+		/*
+		try {
+			
+			FileInputStream fileIn = new FileInputStream("loadfromhere"+".ser");
+				
+		}catch(IOException i) {
+			i.printStackTrace();
+			return fileIn;
+		}catch(ClassNotFoundException c) {
+			System.out.println(" class not found");
+			c.printStackTrace();
+		return fileIn;
+		}
+		*/
+		return fileIn;
+	}
+	
+	public static FileOutputStream saveSerializer(String file_argument) {
+		
+		//FileOutputStream fileOut = new FileOutputStream("savehere"+".ser");
+		
+		try {
+			
+			fileOut = new FileOutputStream(file_argument+".ser");
+			out = new ObjectOutputStream(fileOut);
+			
+			
+		}catch(IOException i) {
+			i.printStackTrace();
+			return fileOut;
+		}
+		
+		return fileOut;
+		
+	}
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() {
@@ -49,11 +102,56 @@ public class AutoCompleteMe {
 		}
 	}
 	
-	public static void loadFromFile(String file_argument){ // Serialisation to be done later
+	public static void loadFromFile(String file_argument)  { // Serialisation to be done later
 		
+		//serialiser(1);
+		/*String file_name = file_argument;
+		
+		String str;
+		
+		try {
+			FileInputStream fileIn = new FileInputStream(file_argument+".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			
+			str =  (String) in.readObject();
+			
+			
+			in.close();
+			fileIn.close();
+		}catch(IOException i) {
+			i.printStackTrace();
+			return;
+		}catch(ClassNotFoundException c) {
+			System.out.println("Employee class not found");
+			c.printStackTrace();
+			return;
+		}
+		*/
 	}
-	public static void saveToFile(String file_argument){ // Serialisation to be done later
+	
+	
+	public static void saveToFile(String file_argument) { // Serialisation to be done later
 		
+		
+		
+		try {
+			//String file_name = file_argument;
+			
+			fileOut = saveSerializer(file_argument);
+			//out = new ObjectOutputStream(fileOut);
+			
+			String str="";
+			needs_serialization = 1;
+			
+			traversalPrint(root,str);
+			 
+			out.close();
+			fileOut.close();
+			needs_serialization = 3;
+			
+		}catch(IOException i) {
+			i.printStackTrace();
+		}
 	}
 	
 	
@@ -86,6 +184,14 @@ public class AutoCompleteMe {
 					}
 					
 					System.out.println("Word in Dictionary: " + str);//print the word now
+					if (needs_serialization == 1 ) {
+						try {
+							out.writeObject(str);
+						}catch(IOException ioe){
+							ioe.printStackTrace();
+						}
+						System.out.println("word saved ");
+					}
 				}
 				
 				traversalPrint(temp,str);//continue searching the tree , call method recursively
@@ -175,7 +281,6 @@ public class AutoCompleteMe {
 						
 						counter=counter+1;
 					}
-					
 				}
 			}	
 		}
@@ -184,7 +289,7 @@ public class AutoCompleteMe {
 		}
 	}
 
-	public static int  suggestWordPhrase(String word_phrase){//after the structure is finished, the program can show suggestions to the user
+	public static int suggestWordPhrase(String word_phrase){//after the structure is finished, the program can show suggestions to the user
 	
 		int pos;//index
 		DictNode temp = root;//initiliaze current object as the root of the tree
