@@ -55,11 +55,40 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 	}
 	
 	public static void loadFromFile(String file_argument)  {// Serialisation to be done later
-	
+		try{
+			FileInputStream fileIn = new FileInputStream(file_argument+".ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			
+			root = (DictNode) in.readObject();
+			
+			in.close();
+			fileIn.close();
+		}
+		catch(IOException i){
+			i.printStackTrace();
+			return;
+		}
+		catch(ClassNotFoundException ex) {
+			System.out.println("Class Not Found");
+			ex.printStackTrace();
+			return;
+		}
 	}
 	
 	public static void saveToFile(String file_argument) { // Serialisation to be done later
-	
+		try{
+			FileOutputStream fileOut = new FileOutputStream(file_argument+".ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			
+			out.writeObject(root);
+			
+			out.close();
+			fileOut.close();
+			System.out.println("Serialized data is saved in "+file_argument+".ser");
+		}
+		catch(IOException ex){
+			ex.printStackTrace();
+		}
 	}
 	
 	
