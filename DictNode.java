@@ -2,7 +2,7 @@ import java.io.*;;
 
 enum wordType { ALLCAPS, FIRSTCAP, NOCAPS }; //enum for CAPS info for the words
 
-public class DictNode implements java.io.Serializable {
+public class DictNode {
 	public DictNode pointers[];// = new DictNode[26];
 	public boolean isTerminal;
 	public wordType capsType=wordType.NOCAPS;
