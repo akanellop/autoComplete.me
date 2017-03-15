@@ -9,54 +9,12 @@ import java.io.*;
 
 public class AutoCompleteMe implements java.io.Serializable{//, throws IOException, FileNotFoundException{
 	
-	 //static FileInputStream fileIn = new FileInputStream("loadfromhere"+".ser");
-	 // = new ObjectInputStream(fileIn);
-	
-	 //static FileOutputStream fileOut = new FileOutputStream("savehere"+".ser");
-	 //static ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	
-	static int needs_serialization = 0;
-	
-	static FileInputStream fileIn ;
-	static FileOutputStream fileOut ;
-	static ObjectOutputStream out ;//= new ObjectOutputStream(file);;
-	static ObjectInputStream in;
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
 	
-	public static FileInputStream loadSerialiser(String file_argument){
-		
-		String word="";
-		try {
-			
-			fileIn = new FileInputStream(file_argument+".ser");
-			in = new ObjectInputStream(fileIn);
-			
-		}catch(IOException ioe) {
-			ioe.printStackTrace();
-			return fileIn;
-		}
-		return fileIn;
-	}
+	static int needs_serialization = 0;
 	
-	public static FileOutputStream saveSerializer(String file_argument) {
-		
-		//FileOutputStream fileOut = new FileOutputStream("savehere"+".ser");
-		
-		try {
-			
-			fileOut = new FileOutputStream(file_argument+".ser");
-			out = new ObjectOutputStream(fileOut);
-			
-			
-		}catch(IOException i) {
-			i.printStackTrace();
-			return fileOut;
-		}
-		
-		return fileOut;
-		
-	}
+
 	
 	//MENU method prints out the menu in terminal and waits user's input
 	public static void menu() throws ClassNotFoundException,NullPointerException {
@@ -99,104 +57,11 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 	
 	public static void loadFromFile(String file_argument)  throws ClassNotFoundException,NullPointerException{ // Serialisation to be done later
 		
-		
-		
-		try {
-			int pos;
-			DictNode temp = new DictNode(false,wordType.NOCAPS);
-			String word = (String)in.readObject();
-			wordType checkCaps ;//= wordType.NOCAPS; //variable so we can check CAPS status for each word
-		
-			fileIn= loadSerialiser(file_argument);
-			needs_serialization=9; //peritto?
-			
-			root=temp;
-			while(word!=null){//mexri na teleiwsoun oi lekseis 
-				//word = (String) in.readObject();
-				int counter=0;
-				for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
-					pos = ch -'a'; // index 
-						
-					//if ( pos == 0 ) { // in case there is not a node for 'a'
-					if (temp.pointers[pos] == null ) { //we "build" a new object in the correct position of the array of the current node
-							
-						temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
-					}
-					
-					if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
-						checkCaps = wordType.ALLCAPS;
-					}
-					else if(Character.isUpperCase(word.charAt(0)) ){//&& checkPunct==false){ //first char is UPPERCASE, FIRSTCAP
-						checkCaps = wordType.FIRSTCAP;
-					}
-					else {
-						checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
-					}
-							
-					temp=temp.pointers[pos];//passing onto the child
-					//if the character is the last one define the rest fields of the node
-					if ( counter == word.length()-1 ){
-						temp.isTerminal = true;
-						temp.capsType = checkCaps;
-					}
-					counter=counter+1;
-				}
-				word = (String) in.readObject();
-			}
-			//gia oles tis lekseis
-			in.close();
-			fileIn.close();
-			
-			needs_serialization = 3;
-		}catch(IOException i) {
-			i.printStackTrace();
-		}
-		//serialiser(1);
-		/*String file_name = file_argument;
-		
-		String str;
-		
-		try {
-			FileInputStream fileIn = new FileInputStream(file_argument+".ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			
-			str =  (String) in.readObject();
-			
-			
-			in.close();
-			fileIn.close();
-		}catch(IOException i) {
-			i.printStackTrace();
-			return;
-		}catch(ClassNotFoundException c) {
-			System.out.println("Employee class not found");
-			c.printStackTrace();
-			return;
-		}
-		*/
 	}
 	
 	
 	public static void saveToFile(String file_argument) { // Serialisation to be done later
 		
-		try {
-			//String file_name = file_argument;
-			
-			fileOut = saveSerializer(file_argument);
-			//out = new ObjectOutputStream(fileOut);
-			
-			String str="";
-			needs_serialization = 1;
-			
-			traversalPrint(root,str);
-			 
-			out.close();
-			fileOut.close();
-			needs_serialization = 3;
-			
-		}catch(IOException i) {
-			i.printStackTrace();
-		}
 	}
 	
 	
@@ -229,14 +94,14 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 					}
 					
 					System.out.println("Word in Dictionary: " + str);//print the word now
-					if (needs_serialization == 1 ) {
+					/*if (needs_serialization == 1 ) {
 						try {
 							out.writeObject(str);
 						}catch(IOException ioe){
 							ioe.printStackTrace();
 						}
 						System.out.println("word saved ");
-					}
+					}*/
 				}
 				
 				traversalPrint(temp,str);//continue searching the tree , call method recursively
@@ -371,10 +236,122 @@ public class AutoCompleteMe implements java.io.Serializable{//, throws IOExcepti
 
 
 }
-/*
-while(word.endsWith( ".")|| word.endsWith( "?")|| word.endsWith( "!") // erase punct symblos in the end of the word
-					|| word.endsWith( "\'") || word.endsWith( ",")|| word.endsWith( ":")){// for example, we get "absolute." replaced with "absolute"
-					word=word.substring(0, word.length()-1);
-					checkPunct= true;
-				} 
-				*/
+	/*static FileInputStream fileIn ;
+	static FileOutputStream fileOut ;
+	static ObjectOutputStream out ;//= new ObjectOutputStream(file);;
+	static ObjectInputStream in;
+	
+	
+	
+	public static FileInputStream loadSerialiser(String file_argument){
+		
+		String word="";
+		try {
+			
+			fileIn = new FileInputStream(file_argument+".ser");
+			in = new ObjectInputStream(fileIn);
+			
+		}catch(IOException ioe) {
+			ioe.printStackTrace();
+			return fileIn;
+		}
+		return fileIn;
+	}
+	
+	public static FileOutputStream saveSerializer(String file_argument) {
+		
+		//FileOutputStream fileOut = new FileOutputStream("savehere"+".ser");
+		
+		try {
+			
+			fileOut = new FileOutputStream(file_argument+".ser");
+			out = new ObjectOutputStream(fileOut);
+			
+			
+		}catch(IOException i) {
+			i.printStackTrace();
+			return fileOut;
+		}
+		
+		return fileOut;
+		
+	}
+	
+	public static void saveToFile(String file_argument) { // Serialisation to be done later
+		
+		try {
+			//String file_name = file_argument;
+			
+			fileOut = saveSerializer(file_argument);
+			//out = new ObjectOutputStream(fileOut);
+			
+			String str="";
+			needs_serialization = 1;
+			
+			traversalPrint(root,str);
+			 
+			out.close();
+			fileOut.close();
+			needs_serialization = 3;
+			
+		}catch(IOException i) {
+			i.printStackTrace();
+		}
+	}
+	
+	public static void loadFromFile(String file_argument)  throws ClassNotFoundException,NullPointerException{ // Serialisation to be done later
+		
+		
+		
+		try {
+			int pos;
+			DictNode temp = new DictNode(false,wordType.NOCAPS);
+			String word = (String)in.readObject();
+			wordType checkCaps ;//= wordType.NOCAPS; //variable so we can check CAPS status for each word
+		
+			fileIn= loadSerialiser(file_argument);
+			needs_serialization=9; //peritto?
+			
+			root=temp;
+			while(word!=null){//mexri na teleiwsoun oi lekseis 
+				//word = (String) in.readObject();
+				int counter=0;
+				for ( char ch : word.toCharArray()) { //enhanced loop, iterates through each character
+					pos = ch -'a'; // index 
+						
+					//if ( pos == 0 ) { // in case there is not a node for 'a'
+					if (temp.pointers[pos] == null ) { //we "build" a new object in the correct position of the array of the current node
+							
+						temp.pointers[pos] = new DictNode(false,wordType.NOCAPS);//create node test
+					}
+					
+					if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
+						checkCaps = wordType.ALLCAPS;
+					}
+					else if(Character.isUpperCase(word.charAt(0)) ){//&& checkPunct==false){ //first char is UPPERCASE, FIRSTCAP
+						checkCaps = wordType.FIRSTCAP;
+					}
+					else {
+						checkCaps = wordType.NOCAPS; // word is lowercase, NOCAPS
+					}
+							
+					temp=temp.pointers[pos];//passing onto the child
+					//if the character is the last one define the rest fields of the node
+					if ( counter == word.length()-1 ){
+						temp.isTerminal = true;
+						temp.capsType = checkCaps;
+					}
+					counter=counter+1;
+				}
+				word = (String) in.readObject();
+			}
+			//gia oles tis lekseis
+			in.close();
+			fileIn.close();
+			
+			needs_serialization = 3;
+		}catch(IOException i) {
+			i.printStackTrace();
+		}
+	}
+	*/
