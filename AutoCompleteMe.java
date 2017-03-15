@@ -8,8 +8,13 @@ import java.io.*;
 public class AutoCompleteMe {//implements java.io.Serializable{//
 	
 	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
-
+	static File f = new File("dictionary.txt");
+	static PrintWriter outputStream ;//= null;// = new PrintWriter(new FileWriter("dictionary.txt"));
 	//MENU method prints out the menu in terminal and waits user's input
+	
+	static int counterForWords = 0 ;
+	static int flagForFile ;
+	
 	public static void menu()  {
 		while(true){
 			
@@ -36,6 +41,7 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 				readFromFile(user_option[1]);
 			}
 			else if ( user_option[0].equals("suggest") ){ //suggest wordPhrase
+				flagForFile = 0;
 				suggestWordPhrase(user_option[1]);
 			}
 			else if (user_option[0].equals("print"))		{// "print"		
@@ -61,6 +67,7 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
     	
 		int chtemp;
 		char ch;
+		int counter;
 		
 		DictNode temp = current ; //new DictNode(false,wordType.NOCAPS);
 			
@@ -84,7 +91,12 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 						//System.out.println("this word is FIRSTCAP");
 						str=str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
 					}
-					System.out.println("Word in Dictionary: " + str);//print the word now
+					System.out.println(str);//print the word now
+					if ( flagForFile == 1) {
+						outputStream.println(str);
+						counterForWords = counterForWords + 1;
+					}
+					
 				}
 				
 				traversalPrint(temp,str);//continue searching the tree , call method recursively
@@ -99,7 +111,29 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 	public static void printDictionary(){
 		  
 		String str="";
+		
+		flagForFile = 1;
+		if (!f.exists()) {//ean den uparxei 
+			try{
+				f.createNewFile();//tote dimiourgise to
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		
+		try{
+			outputStream = new PrintWriter(new FileWriter("dictionary.txt"));
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		//outputStream.println("ADSDSASDASADSADSDAASDASDDSASDADSAASD");
 		traversalPrint(root,str);
+		System.out.println("File name = dictionary.txt , Words Counter = " +counterForWords);
+		counterForWords=0;
+		outputStream.close();
 	} 
 	
 	//takes file as input and save all the words in a dictionary-like structure
