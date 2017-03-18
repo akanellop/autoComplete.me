@@ -26,6 +26,15 @@
 		![test](http://www.cs.princeton.edu/courses/archive/fall13/cos226/assignments/autocomplete-phone.png)
 		![test2](http://www.cs.princeton.edu/courses/archive/fall13/cos226/assignments/autocomplete-google.png)
 		
+# How to Compile and Run( because it's packaged ) :
+	Compile Instructions:
+
+	javac -d . DictNode.java
+	javac -d . AutoCompleteMe.java
+
+	Run Instructions:
+
+	java ce325.hw1.AutoCompleteMe
 Our AutoCompleteMe system works on .txt files you give and builds a dictionary-tree structure.
 
 It could be modified to get content from the web or have a GUI for the suggestions it makes for you.
