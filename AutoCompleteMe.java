@@ -1,22 +1,37 @@
+package ce325.hw1;
+
 import java.util.Scanner;
 import java.io.File;
 import java.util.regex.*;
 import java.lang.*;
 import java.io.*;
 
+/* AutoCompleteMe:	
 
-public class AutoCompleteMe {//implements java.io.Serializable{//
+	Program in JAVA which implements the autocomplete function as follows:
+	1.Reads words from files given to you by creating a database of suggested words
+	2.Inserts each word read in a dictionary structure which forms the basis for proposing words from the program.
+	3.After completing the reading process the program is able to propose to the user words 
+		based on the word prefix (string) he introduces a time.
+	4.Storage and retrieval of the dictionary in binary format.
+
+*/
+
+//Eleftherios Panagiotis Loukas @eloukas
+//Katerina Kanellopoulou @akanellop
+
+public class AutoCompleteMe {
 	
-	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree
+	static DictNode root = new DictNode(false,wordType.NOCAPS); // creates root of the tree, must be seen by everyone
 	static File f = new File("dictionary.txt");
 	static PrintWriter outputStream ;//= null;// = new PrintWriter(new FileWriter("dictionary.txt"));
-	//MENU method prints out the menu in terminal and waits user's input
 	
 	static int counterForWords = 0 ;
 	static int flagForFile ;
 	
+	//'menu()' method prints out the menu in terminal and waits user's input
 	public static void menu()  {
-		while(true){
+		while(true){ //runs continuously
 			
 			System.out.println("-----------MENU-----------\n"  
 			+"1. Load dictionary from binary file (type: load fromFilepath)\n"
@@ -26,43 +41,48 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 			+"5. Print dictionary information (type: print)\n"
 			+"6. Quit (type: quit)\n");
 			
-			Scanner input = new Scanner(System.in); //create input variable
-			String data = input.nextLine();  //get whole line from terminal
-			String[] user_option = data.split("\\s+");// split the line where " " is used
+			Scanner input = new Scanner(System.in); 	//create input variable
+			String data = input.nextLine();  			//get whole line from terminal
+			String[] user_option = data.split("\\s+");	// split the line where " " is used
 			
 			
-			if ( user_option[0].equals("load") ){ // load fromFilePath
+			if ( user_option[0].equals("load") )	{ 	  // load fromFilePath
 				loadFromFile(user_option[1]);
 			}
-			else if ( user_option[0].equals("save") ){ //save toFilePath
+			else if ( user_option[0].equals("save") ){ 	  //save toFilePath
 				saveToFile(user_option[1]);
 			}
-			else if ( user_option[0].equals("read") ){ //read fromFilePath
+			else if ( user_option[0].equals("read") ){ 	  //read fromFilePath
 				readFromFile(user_option[1]);
 			}
 			else if ( user_option[0].equals("suggest") ){ //suggest wordPhrase
-				flagForFile = 0;
+				flagForFile = 0; //used if we DO not want to write on a file.
 				suggestWordPhrase(user_option[1]);
 			}
-			else if (user_option[0].equals("print"))		{// "print"		
+			else if (user_option[0].equals("print"))	{ // "print"		
 				printDictionary();
 			}
-			else if (user_option[0].equals("quit"))	{ // "quit"
+			else if (user_option[0].equals("quit"))		{ // "quit"
 				System.out.println("Ok, Bye!\n");
 				System.exit(0);
+			}
+			else {
+				System.out.println("Sorry, no instruction like that is available.Try again as follows:");
 			}
 		}
 	}
 	
-	public static void loadFromFile(String file_argument)  {// Serialisation to be done later
+	/*loadFromFile method loads a dictionary from a binary file.
+		Takes the name of the file as an argument*/
+	public static void loadFromFile(String file_argument)  {
 		try{
-			FileInputStream fileIn = new FileInputStream(file_argument+".ser");
+			FileInputStream fileIn = new FileInputStream(file_argument+".ser"); //create FileInputStream based on the file's name
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			
-			root = (DictNode) in.readObject();
+			root = (DictNode) in.readObject(); //read the root 
 			
-			in.close();
-			fileIn.close();
+			in.close(); 
+			fileIn.close(); //close the Input
 		}
 		catch(IOException i){
 			i.printStackTrace();
@@ -75,15 +95,18 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 		}
 	}
 	
-	public static void saveToFile(String file_argument) { // Serialisation to be done later
+	/*saveToFile method saves a dictionary to a binary file.
+		Takes the name of the file as an argument*/
+	public static void saveToFile(String file_argument) { 
 		try{
-			FileOutputStream fileOut = new FileOutputStream(file_argument+".ser");
+			FileOutputStream fileOut = new FileOutputStream(file_argument+".ser"); //create FileOutputStream based on the file's name
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			
-			out.writeObject(root);
+			out.writeObject(root); // save the root
 			
 			out.close();
-			fileOut.close();
+			fileOut.close(); //close the output, it's no more needed
+			
 			System.out.println("Serialized data is saved in "+file_argument+".ser");
 		}
 		catch(IOException ex){
@@ -91,7 +114,10 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 		}
 	}
 	
-	
+	/*traversalPrint prints all available words starting from the DictNode we input and 'builds' the String we pass into
+		It's a recursive function.
+		
+	*/
 	public static void traversalPrint(DictNode current, String str){
     	
 		int chtemp;
@@ -101,27 +127,26 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 		DictNode temp = current ; //new DictNode(false,wordType.NOCAPS);
 			
 		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
+		
 			if (current.pointers[i] != null ) {//if you find a kid that has a letter, search its path
-												//this happens recursively..
-												
+															
 				chtemp = i + 'a'; 
 				ch=(char)chtemp;
-				str = str + ch;		// put the letter in the string
+				str = str + ch;		// put its letter in the string
 				
 				temp=current.pointers[i]; // passing onto the child
 				
 				
 				if ( temp.isTerminal == true ) { 
-					if (temp.capsType == wordType.ALLCAPS){//make it all caps
-						//System.out.println("this word is ALLCAPS");
+					if (temp.capsType == wordType.ALLCAPS){//ALLCAPS word
 						str=str.toUpperCase();
 					}
-					else if ( temp.capsType == wordType.FIRSTCAP) {//make it first capital
-						//System.out.println("this word is FIRSTCAP");
+					else if ( temp.capsType == wordType.FIRSTCAP) {//FIRSTCAPITAL word
 						str=str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
 					}
 					System.out.println(str);//print the word now
-					if ( flagForFile == 1) {
+					
+					if ( flagForFile == 1) {//used if we want to serialize our dictionary
 						outputStream.println(str);
 						counterForWords = counterForWords + 1;
 					}
@@ -130,23 +155,26 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 				
 				traversalPrint(temp,str);//continue searching the tree , call method recursively
              
-				str = str.substring(0,str.length()-1); ////every time i return from the traversal method
-													//i erase the previous node- letter which was given
+				str = str.substring(0,str.length()-1); ////every time we return from the traversal method
+													//we must erase the previous node/letter which was given
 			}
 		}
 	}
+	
+	
 
-	//Prints the Dictionary 
+	/*printDictionary() Prints the Dictionary (you don't say!) 
+		It calls traversalPrint inside.
+	*/
 	public static void printDictionary(){
 		  
 		String str="";
 		
 		flagForFile = 1;
-		if (!f.exists()) {//ean den uparxei 
+		if (!f.exists()) {//if File does not exist
 			try{
-				f.createNewFile();//tote dimiourgise to
-			}
-			catch(Exception ex){
+				f.createNewFile();//then create it
+			}catch(Exception ex){
 				ex.printStackTrace();
 			}
 		}
@@ -158,14 +186,15 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 			ex.printStackTrace();
 		}
 		
-		//outputStream.println("ADSDSASDASADSADSDAASDASDDSASDADSAASD");
 		traversalPrint(root,str);
 		System.out.println("File name = dictionary.txt , Words Counter = " +counterForWords);
 		counterForWords=0;
-		outputStream.close();
+		
+		outputStream.close();//close the outputStream if you want words to be saved
 	} 
 	
-	//takes file as input and save all the words in a dictionary-like structure
+	/*readFromFile takes a file's name as input and saves all of its words in a dictionary-like structure
+	*/
 	public static void readFromFile(String file_argument){  
 		wordType checkCaps = wordType.NOCAPS; //variable so we can check CAPS status for each word
 		boolean checkPunct=false;
@@ -178,11 +207,11 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 		try{
 			
 			String file_name = file_argument;
-			Scanner scanned_file = new Scanner(new File(file_name));
+			Scanner scanned_file = new Scanner(new File(file_name+".txt"));
 			
 			while ( scanned_file.hasNext() ) { //scanner has tokens, so continue scanning
 				String word = scanned_file.next(); //reads word
-				word = word.replaceAll("[^A-Za-z]","?"); //replace all the symbols that are not letters with symbol "?"
+				word = word.replaceAll("[^A-Za-z]","?"); //replace all the symbols that are not letters with the symbol "?"
 				
 				//checks Caps Status for the word
 				if (word.toUpperCase().equals(word)) { //word is ALL UPPERCASE, ALLCAPS
@@ -208,7 +237,7 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 				Matcher m = p.matcher(word);//checks if there are other punc symbols in the word
 				
 				
-				//if you don't find the pattern in the word and the word inst blank seperate the letters to put them "in" the nodes
+				//if you don't find the pattern in the word and the word isn't blank, separate the letters to put them "in" the nodes
 				// reminder :we do this for each word, we are inside a while loop
 				if (!(m.find()) && !(word.equals(""))){ 
 					
@@ -243,6 +272,9 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 		}
 	}
 
+	/*suggestWordPhrase takes a word_phrase and prints you 
+		all the words of the dictionary that start with this word_phrase.
+	*/
 	public static int suggestWordPhrase(String word_phrase){//after the structure is finished, the program can show suggestions to the user
 	
 		int pos;//index
@@ -277,7 +309,6 @@ public class AutoCompleteMe {//implements java.io.Serializable{//
 	public static void main (String [] args) {// throws ClassNotFoundException,NullPointerException {
 		menu();
 	}
-
 
 }
 	
