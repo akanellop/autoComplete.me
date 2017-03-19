@@ -56,10 +56,11 @@ public class AutoCompleteMe {
 				readFromFile(user_option[1]);
 			}
 			else if ( user_option[0].equals("suggest") ){ //suggest wordPhrase
-				flagForFile = 0; //used if we DO not want to write on a file.
+				flagForFile = 0; //used if we DO NOT want to write on a file.
 				suggestWordPhrase(user_option[1]);
 			}
 			else if (user_option[0].equals("print"))	{ // "print"		
+				flagForFile = 1; //used if we DO  want to write on a file.
 				printDictionary();
 			}
 			else if (user_option[0].equals("quit"))		{ // "quit"
@@ -124,8 +125,7 @@ public class AutoCompleteMe {
 		char ch;
 		int counter;
 		
-		DictNode temp = current ; //new DictNode(false,wordType.NOCAPS);
-			
+		DictNode temp = current ;
 		for (int i = 0 ; i < 26 ; i++ ) {//check all the kids for this node
 		
 			if (current.pointers[i] != null ) {//if you find a kid that has a letter, search its path
@@ -144,11 +144,14 @@ public class AutoCompleteMe {
 					else if ( temp.capsType == wordType.FIRSTCAP) {//FIRSTCAPITAL word
 						str=str.substring(0,1).toUpperCase() + str.substring(1).toLowerCase();
 					}
-					System.out.println(str);//print the word now
 					
-					if ( flagForFile == 1) {//used if we want to serialize our dictionary
+					
+					if ( flagForFile == 1) {//used if we want to print our dictionary 
 						outputStream.println(str);
 						counterForWords = counterForWords + 1;
+					}
+					else{
+						System.out.println(str);//used to print the suggested words
 					}
 					
 				}
@@ -169,8 +172,6 @@ public class AutoCompleteMe {
 	public static void printDictionary(){
 		  
 		String str="";
-		
-		flagForFile = 1;
 		if (!f.exists()) {//if File does not exist
 			try{
 				f.createNewFile();//then create it
